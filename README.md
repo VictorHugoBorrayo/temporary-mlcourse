@@ -1,31 +1,29 @@
 # Introducción a la Ciencia de Datos y Machine Learning — Demo
 
 Este repositorio acompaña una clase de prueba (15–20 minutos) para el curso **“Introducción a la Ciencia de Datos y Machine Learning”**.  
-Incluye un cuaderno base con un flujo mínimo reproducible: carga de datos, exploración rápida, división train/test, entrenamiento de un modelo simple y evaluación.
+Incluye dos cuadernos demostrativos que ilustran la evolución desde el **Perceptrón** hasta las **Redes Neuronales Artificiales (ANN)**, mostrando la relación entre sus fundamentos matemáticos y su implementación práctica.
 
 ## Objetivos del repositorio
 
-- Mostrar el **flujo de trabajo** básico en ciencia de datos con Python.
-- Proveer una **configuración reproducible** del entorno (venv) y dependencias.
-- Ejecutar un **notebook demostrativo** listo para presentar en clase.
-- Servir como plantilla mínima para extender a módulos del curso.
+- Demostrar el flujo de trabajo básico de un modelo de aprendizaje supervisado en Python.  
+- Presentar la relación entre el perceptrón clásico y la neurona artificial moderna.  
+- Ejecutar y visualizar el entrenamiento de una red neuronal simple sobre el conjunto MNIST.  
+- Proveer una configuración reproducible del entorno de trabajo para futuras extensiones del curso.
 
 ## Estructura del proyecto
 
 ```
 .
 ├─ notebooks/
-│  └─ 01_demo_intro_dsml.ipynb        # Cuaderno de 15–20 min
-├─ data/
-│  ├─ raw/                            # Datos crudos (si aplica)
-│  └─ processed/                      # Datos procesados (si aplica)
+│  ├─ perceptron.ipynb                # Cuaderno del perceptrón y casos lineales
+│  └─ ann.ipynb                       # Cuaderno de red neuronal (ANN)
 ├─ src/                               # Funciones auxiliares opcionales
-├─ requirements.txt                   # Dependencias del demo
+├─ requirements.txt                   # Dependencias del proyecto
 ├─ .env.example                       # Variables de entorno (opcional)
 └─ README.md
 ```
 
-> **Nota:** El cuaderno está listo para correrse sin credenciales. Si luego se agregan fuentes externas, copia `.env.example` a `.env` y completa las variables necesarias.
+> **Nota:** Los cuadernos generan sus propios datos de manera sintética, por lo que no requieren archivos externos ni credenciales.
 
 ## Requisitos previos
 
@@ -35,15 +33,13 @@ Incluye un cuaderno base con un flujo mínimo reproducible: carga de datos, expl
   - *Python* (Microsoft)
   - *Jupyter* (Microsoft)
 
-> Alternativa: puedes usar **Conda** si lo prefieres (instrucciones abajo).
-
 ## Configuración rápida (venv + pip)
 
 ### 1) Clonar el repositorio
 
 ```bash
-git clone <URL_DE_TU_REPO>
-cd <NOMBRE_DEL_REPO>
+git clone <URL_DEL_REPOSITORIO>
+cd <NOMBRE_DEL_REPOSITORIO>
 ```
 
 ### 2) Crear y activar entorno virtual
@@ -67,62 +63,54 @@ python -m pip install --upgrade pip
 pip install -r requirements.txt
 ```
 
-> Si tu red usa proxy/certificados, agrega `--trusted-host` o configura `PIP_INDEX_URL` según tu entorno.
-
 ## Uso en Visual Studio Code
 
-1. Abre el proyecto:
+1. Abrir el proyecto:  
    ```bash
    code .
    ```
-2. VS Code detectará el entorno virtual. Si pregunta por el intérprete, elige:
-   - **macOS/Linux:** `.venv/bin/python`
+2. Seleccionar el intérprete correspondiente:  
+   - **macOS/Linux:** `.venv/bin/python`  
    - **Windows:** `.venv\Scripts\python.exe`
-3. Abre `notebooks/01_demo_intro_dsml.ipynb`.
-4. Selecciona el **Kernel** del cuaderno → elige el Python de `.venv`.
-5. Ejecuta las celdas (Run All) o navega paso a paso.
-6. (Opcional) Si aparece el aviso de “Trust”, marca el repo como confiable.
-
-## Alternativa con Conda (opcional)
-
-```bash
-conda create -n dsml-demo python=3.10 -y
-conda activate dsml-demo
-pip install --upgrade pip
-pip install -r requirements.txt
-code .
-```
-
-En el notebook, selecciona el kernel de `dsml-demo`.
+3. Abrir el cuaderno deseado en `notebooks/`:
+   - `perceptron.ipynb` → demostración del perceptrón.  
+   - `ann.ipynb` → demostración de la red neuronal con Keras/TensorFlow.
+4. Ejecutar las celdas en orden o utilizar la opción *Run All*.  
+5. En caso de aparecer el aviso “Trust”, marcar el repositorio como confiable.
 
 ## Variables de entorno (opcional)
 
-Si necesitas credenciales/flags:
+Cuando se requiera agregar configuraciones personalizadas:
 
-1. Copia el ejemplo:
-   ```bash
-   cp .env.example .env
-   ```
-2. Edita `.env` con tus valores.
-3. Desde Python, puedes leerlas con `os.getenv` (si usas `python-dotenv`, se cargan automáticamente en el notebook).
+```bash
+cp .env.example .env
+```
 
-## Datos de ejemplo
+Editar los valores necesarios y cargarlos desde Python con `os.getenv` o la librería `python-dotenv`.
 
-El notebook puede:
-- Usar un dataset sintético generado con `scikit-learn`, **o**
-- Leer un CSV simple dentro de `data/raw/`.
+## Descripción de los notebooks
 
-Para repetir la demo sin depender de archivos externos, el cuaderno por defecto genera datos sintéticos.
+### `perceptron.ipynb`
+- Genera un conjunto de datos linealmente separable.  
+- Implementa el perceptrón clásico con Numpy.  
+- Muestra el proceso de entrenamiento y la frontera de decisión aprendida.  
+- Incluye un caso no linealmente separable (círculos concéntricos) para mostrar la limitación del modelo.
 
-## Plan de la demo (15–20 min)
+### `ann.ipynb`
+- Presenta la transición del perceptrón a una red neuronal multicapa.  
+- Explica el *forward* y *backpropagation* mediante código y visualizaciones.  
+- Entrena una red neuronal en el conjunto MNIST y muestra las predicciones gráficas.  
 
-1. **Contexto** (1–2 min): objetivo del flujo (de datos a modelo).
-2. **EDA mínima** (5–7 min): carga/generación de datos, `pandas.head()`, gráfica rápida.
-3. **Split + Modelo** (5–7 min): `train_test_split`, modelo sencillo (p. ej., `LogisticRegression` o `DecisionTreeClassifier`).
-4. **Evaluación** (3–4 min): métricas básicas y breve interpretación.
-5. **Cierre** (1 min): siguientes pasos (pipelines, validación, deployment).
+## Plan de la demostración (15–20 minutos)
 
-> El cuaderno `01_demo_intro_dsml.ipynb` ya contiene celdas ordenadas para este guion.
+1. **Perceptrón** (5–7 min):  
+   - Motivación, definición y entrenamiento sobre un conjunto linealmente separable.  
+2. **Caso no linealmente separable** (3–4 min):  
+   - Demostración de las limitaciones del modelo.  
+3. **Red neuronal (ANN)** (7–8 min):  
+   - Explicación de la estructura, entrenamiento con TensorFlow y resultados sobre MNIST.  
+4. **Cierre** (1–2 min):  
+   - Interpretación de resultados y vinculación con los temas avanzados del curso.
 
 ## Comandos útiles
 
@@ -131,26 +119,23 @@ Para repetir la demo sin depender de archivos externos, el cuaderno por defecto 
 source .venv/bin/activate              # macOS/Linux
 .\.venv\Scripts\Activate.ps1           # Windows
 
-# Instalar/actualizar dependencias
+# Instalar dependencias
 pip install -r requirements.txt
-pip install -U <paquete>
 
-# Abrir VS Code
+# Abrir Visual Studio Code
 code .
 
-# Salir del entorno
+# Desactivar entorno
 deactivate
 ```
 
 ## Solución de problemas
 
-- **VS Code no encuentra el kernel:**
-  Asegúrate de que el venv esté activo y vuelve a seleccionar el intérprete (Cmd/Ctrl + Shift + P → “Python: Select Interpreter”).
-- **Error al instalar librerías (Windows):**
-  Abre VS Code en **PowerShell** o **CMD** con permisos estándar; si falla por compilación, instala *Microsoft C++ Build Tools* o usa ruedas precompiladas.
-- **Conflictos de versión:**
-  Ejecuta `pip list` y valida versiones; si es necesario, borra `.venv/` y repite la instalación.
+- **El kernel no aparece en VS Code:** verificar que el entorno esté activo y volver a seleccionar el intérprete (Cmd/Ctrl + Shift + P → “Python: Select Interpreter”).  
+- **Error al instalar dependencias:** ejecutar `python -m pip install --upgrade pip` antes de reinstalar.  
+- **Conflictos de versión:** eliminar `.venv/` y repetir el proceso de instalación.
 
 ## Licencia
 
-Uso educativo para la clase de demostración. Puedes reutilizar esta plantilla en tus propios cursos.
+Uso educativo para la clase de demostración del curso *Introducción a la Ciencia de Datos y Machine Learning*.  
+Este material puede reutilizarse con fines docentes o de divulgación.
